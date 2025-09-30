@@ -1,0 +1,26 @@
+import { NextResponse } from "next/server";
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const chainId = searchParams.get("chainId");
+  const address = searchParams.get("address");
+  const key = process.env.COVALENT_KEY || process.env.NEXT_PUBLIC_COVALENT_KEY || "";
+
+  if (!key) return NextResponse.json({ error: "Missing COVALENT_KEY" }, { status: 400 });
+  if (!chainId || !address) return NextResponse.json({ error: "chainId and address required" }, { status: 400 });
+
+  const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?nft=true&key=${key}`;
+  const res = await fetch(url);
+  const text = await res.text();
+
+  try {
+    const json = JSON.parse(text);
+    return NextResponse.json(json);
+  } catch {
+    return new NextResponse(text, {
+      status: res.status,
+      headers: { "content-type": res.headers.get("content-type") || "text/plain" },
+    });
+  }
+}
+

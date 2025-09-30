@@ -1,0 +1,22 @@
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const key = process.env.COVALENT_KEY || process.env.NEXT_PUBLIC_COVALENT_KEY || "";
+  if (!key) {
+    return NextResponse.json({ error: "Missing COVALENT_KEY" }, { status: 400 });
+  }
+
+  const res = await fetch(`https://api.covalenthq.com/v1/chains/?key=${key}`);
+  const text = await res.text();
+
+  // forward text (JSON or HTML) so client can handle it
+  try {
+    const json = JSON.parse(text);
+    return NextResponse.json(json);
+  } catch {
+    return new NextResponse(text, {
+      status: res.status,
+      headers: { "content-type": res.headers.get("content-type") || "text/plain" },
+    });
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "accountAssociation": {
+    "signature": "0x123abc...",
+    "body": {
+      "address": "0x77b5A5C8A71dd01713bAcEF0eF41B18Ce34F1152",
+      "domain": "portfolio-airdrop.vercel.app"
+    }
+  },
+  "name": "Portfolio + Airdrop Checker",
+  "description": "Cek token & eligibility airdrop langsung dari wallet kamu",
+  "icon": "https://i.postimg.cc/pLZZHnS7/Chat-GPT-Image-29-Mei-2025-16-52-23.png",
+  "url": "https://portfolio-airdrop.vercel.app",
+  "version": "1.0.0"
+}
+
